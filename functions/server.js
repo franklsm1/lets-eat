@@ -5,17 +5,16 @@ const helmet = require('helmet');
 const socket  = require('socket.io');
 const requestIp = require('request-ip');
 
-const PATH = 'client/build';
 const app = express();
 
 app.disable('x-powered-by');
-app.use(express.static(path.join(__dirname, `../${PATH}`)));
+app.use(express.static(path.join(__dirname, `../'`)));
 app.use(helmet());
 const server = serverless(app);
 
 app.get('*', (req, res) => {
     console.log(req.url);
-    res.sendFile(path.join(__dirname, `../${PATH}/index.html`));
+    res.sendFile(path.join(__dirname, `../index.html`));
 });
 
 const io = socket(server);

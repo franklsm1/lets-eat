@@ -1,5 +1,10 @@
 [build]
   # This will be run the site build
   command = "npm run build"
-  # functions build directory
   functions = "functions/"
+  publish = "client/build/"
+
+[[redirects]]
+  from = "/"
+  to = "/.netlify/functions/server"
+  status = 200

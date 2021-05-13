@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
-const socket  = require('socket.io');
+const socket = require('socket.io');
 const requestIp = require('request-ip');
 
 const PORT = process.env.PORT || 9000;
@@ -28,7 +28,7 @@ io.on('connection', function (socket) {
     let clientIP = requestIp.getClientIp(socket.request);
     console.log('New connection from ' + clientIP);
 
-    if ( networks[clientIP] === undefined ){
+    if (networks[clientIP] === undefined) {
         networks[clientIP] = [];
     }
     let network = networks[clientIP];
@@ -45,8 +45,8 @@ io.on('connection', function (socket) {
 
 });
 
-function updateNetwork(network){
-    for( let socket of network ){
-        socket.emit( 'network-clients', network.length );
+function updateNetwork(network) {
+    for (let singleSocket of network) {
+        singleSocket.emit('network-clients', network.length);
     }
 }

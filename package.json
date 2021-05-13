@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "build": "cd client && npm i && npm run build",
     "test": "test",
@@ -11,6 +12,7 @@
   "author": "Sean Franklin",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "path": "^0.12.7",

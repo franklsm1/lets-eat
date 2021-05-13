@@ -8,9 +8,9 @@ const PORT = process.env.PORT || 9000;
 const PATH = 'client/build';
 const app = express();
 
-// app.disable('x-powered-by');
+app.disable('x-powered-by');
 app.use(express.static(path.join(__dirname, `./${PATH}`)));
-// app.use(helmet());
+app.use(helmet());
 const server = app.listen(PORT, '0.0.0.0');
 
 console.log('Express server listening on port %d in %s mode', PORT, app.settings.env); // eslint-disable-line no-console

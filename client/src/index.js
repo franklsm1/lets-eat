@@ -14,7 +14,7 @@ socket.on('network-clients', (data) => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App clientList />
+    <App clientList={clientList} />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -3,6 +3,7 @@ import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
 import { fileURLToPath } from 'url';
+import { Server } from 'socket.io';
 import configureSockets from "./src/configureSockets.js";
 
 const PORT = process.env.PORT || 9000;
@@ -23,4 +24,5 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, `./${PATH}/index.html`));
 });
 
-configureSockets(server);
+const socket = new Server(server)
+configureSockets(socket);

@@ -12,8 +12,8 @@ WORKDIR app
 # Build the app
 ENV NODE_ENV=production
 RUN npm install
-RUN npm run test
 RUN npm run build
+RUN npm run test
 
 # Set and expose app port, default to 443
 ENV PORT=${PORT:-443}

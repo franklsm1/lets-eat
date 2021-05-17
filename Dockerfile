@@ -9,13 +9,13 @@ RUN chmod +x /usr/local/bin/dumb-init
 COPY . /app/
 WORKDIR app
 
-# Set the Google Maps API key
-ARG GOOGLE_MAPS_API_KEY
+# Set the Google Maps API key (default to missing)
+ARG GOOGLE_MAPS_API_KEY=missing
 
 # Build the app
 RUN npm run installAll
-RUN echo $GOOGLE_MAPS_API_KEY
-RUN REACT_APP_GOOGLE_KEY=${GOOGLE_MAPS_API_KEY} npm run build
+RUN echo "google API key: $GOOGLE_MAPS_API_KEY"
+RUN npm run build
 RUN npm run testAll
 ENV NODE_ENV=production
 RUN npm prune --production

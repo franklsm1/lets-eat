@@ -1,32 +1,43 @@
 import requestIp from 'request-ip';
+import geoIp from 'geoip-lite';
+
+const networks = {};
+const defaultLatLong = [35.5836, -80.8533] // Mooresville Costco :)
 
 export default function (server) {
-    let networks = {};
-
-    server.on('connection', (socket) => {
-        let clientIP = requestIp.getClientIp(socket.request);
-        console.log('New connection from ' + clientIP);
-
-        if (networks[clientIP] === undefined) {
-            networks[clientIP] = [];
-        }
-        let network = networks[clientIP];
-
-        network.push(socket);
-        updateNetwork(network);
+    server.on('connection', socket => {
+        const clientIp = requestIp.getClientIp(socket.request);
+        console.log('New connection from ' + clientIp);
+        const connectionInfo = getConnectionInfoByClientIp(clientIp);
+        const connectedSockets = connectionInfo.sockets;
+        connectedSockets.push(socket);
+        sendConnectedSocketsAnUpdate(connectionInfo);
 
         socket.on('disconnect', () => {
-            console.log('Disconnected ' + clientIP);
+            console.log('Disconnected ' + clientIp);
 
-            network.splice(network.indexOf(socket), 1);
-            updateNetwork(network);
+            connectedSockets.splice(connectedSockets.indexOf(socket), 1);
+            sendConnectedSocketsAnUpdate(connectedSockets);
         });
-
     });
 }
 
-const updateNetwork = (network) => {
-    for (let socket of network) {
-        socket.emit('network-clients', network.length);
+const getConnectionInfoByClientIp = clientIp => {
+    if (networks[clientIp] === undefined) {
+        networks[clientIp] = {
+            sockets: [],
+            latLong: geoIp.lookup(clientIp)?.ll || defaultLatLong
+        };
+    }
+    return networks[clientIp];
+};
+
+const sendConnectedSocketsAnUpdate = connectionInfo => {
+    const {sockets = [], latLong} = connectionInfo;
+    for (let socket of sockets) {
+        socket.emit('network-clients', {
+            socketCount: sockets.length,
+            latLong
+        });
     }
 };

@@ -13,7 +13,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url)); // when using ty
 
 
 app.use(cors());
-app.use(helmet());
+app.use(helmet({
+        contentSecurityPolicy: {
+            useDefaults: true,
+            directives: {
+                "script-src": ["'self'", "'unsafe-eval'", "https://maps.googleapis.com", "https://maps.gstatic.com", "https://fonts.googleapis.com"],
+                "img-src": ["'self'", "blob:", "data:",  "https://*.googleapis.com", "https://maps.gstatic.com"]
+            },
+        }
+    })
+);
 app.use(express.static(path.join(__dirname, `./${PATH}`)));
 const server = app.listen(PORT, '0.0.0.0');
 

@@ -2,32 +2,41 @@ import {useState} from 'react';
 import {io} from 'socket.io-client';
 import logo from './logo.svg';
 import './App.css';
+import Map from "./components/Map";
 
 const socket = io(window.location.origin);
 
 const App = () => {
-    const [userCount, setUserCount] = useState("loading...");
+    const [connectionInfo, setConnectionInfo] = useState(null);
     socket.on('network-clients', (data) => {
-        setUserCount(data);
+        setConnectionInfo(data);
     });
     return (
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo"/>
-                <p>
-                    Users connected on the same network: <span id="network-clients">{userCount}</span>
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
             </header>
+            {getContent(connectionInfo)}
         </div>
     );
+};
+
+const getContent = (connectionInfo) => {
+    if (connectionInfo === null) {
+        return (
+            <p>loading...</p>
+        );
+    } else {
+        return (
+        <>
+            <p>
+                Users connected on the same network: <span id="numberOfUsers">{connectionInfo.socketCount}</span>
+            </p>
+            <p> Your location: </p>
+            <Map lat={connectionInfo.latLong[0]} long={connectionInfo.latLong[1]}/>
+        </>
+    );
+    }
 };
 
 export default App;

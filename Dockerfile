@@ -9,6 +9,9 @@ RUN chmod +x /usr/local/bin/dumb-init
 COPY . /app/
 WORKDIR app
 
+# Set and expose Google Maps API key
+ENV REACT_APP_GOOGLE_KEY=$REACT_APP_GOOGLE_KEY
+
 # Build the app
 ENV NODE_ENV=production
 RUN npm install

@@ -14,7 +14,8 @@ ARG GOOGLE_MAPS_API_KEY
 
 # Build the app
 RUN npm run installAll
-RUN REACT_APP_GOOGLE_KEY=$GOOGLE_MAPS_API_KEY npm run build
+RUN echo $GOOGLE_MAPS_API_KEY
+RUN REACT_APP_GOOGLE_KEY=${GOOGLE_MAPS_API_KEY} npm run build
 RUN npm run testAll
 ENV NODE_ENV=production
 RUN npm prune --production

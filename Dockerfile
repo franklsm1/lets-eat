@@ -15,7 +15,7 @@ ENV REACT_APP_GOOGLE_KEY=$GOOGLE_MAPS_API_KEY
 
 # Build the app
 RUN npm run installAll
-CMD ["sh", "-c", "npm run build -- -e=${REACT_APP_GOOGLE_KEY}"]
+RUN npm run build
 RUN npm run testAll
 ENV NODE_ENV=production
 RUN npm prune --production

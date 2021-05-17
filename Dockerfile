@@ -9,14 +9,15 @@ RUN chmod +x /usr/local/bin/dumb-init
 COPY . /app/
 WORKDIR app
 
-# Set and expose Google Maps API key
+# Set the Google Maps API key
 ENV REACT_APP_GOOGLE_KEY=$REACT_APP_GOOGLE_KEY
 
 # Build the app
-ENV NODE_ENV=production
 RUN npm install
 RUN npm run build
 RUN npm run testAll
+ENV NODE_ENV=production
+RUN npm prune --production
 
 # Set and expose app port, default to 443
 ENV PORT=${PORT:-443}

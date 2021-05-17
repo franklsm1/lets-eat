@@ -16,7 +16,7 @@ ENV REACT_APP_GOOGLE_KEY=$REACT_APP_GOOGLE_KEY
 ENV NODE_ENV=production
 RUN npm install
 RUN npm run build
-RUN npm run test
+RUN npm run testAll
 
 # Set and expose app port, default to 443
 ENV PORT=${PORT:-443}

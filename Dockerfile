@@ -9,12 +9,11 @@ RUN chmod +x /usr/local/bin/dumb-init
 COPY . /app/
 WORKDIR app
 
-# Set the Google Maps API key (default to missing)
-ARG GOOGLE_MAPS_API_KEY=missing
+# Set the Google Maps API key (injected from Dockerhub)
+ARG GOOGLE_MAPS_API_KEY
 
 # Build the app
 RUN npm run installAll
-RUN echo "google API key: $GOOGLE_MAPS_API_KEY"
 RUN npm run build
 RUN npm run testAll
 ENV NODE_ENV=production

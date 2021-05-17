@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "cd client && npm i && npm run build",
-    "test": "jest && cd client && npm test",
+    "test": "./node_modules/.bin/jest && cd client && npm test",
     "start": "node server.js"
   },
   "author": "Sean Franklin",

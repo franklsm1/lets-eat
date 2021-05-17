@@ -1,0 +1,2 @@
+#!/bin/sh
+docker build --build-arg GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY -f $DOCKERFILE_PATH -t $IMAGE_NAME .

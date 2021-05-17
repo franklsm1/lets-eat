@@ -11,11 +11,11 @@ WORKDIR app
 
 # Set the Google Maps API key
 ARG GOOGLE_MAPS_API_KEY
-ENV REACT_APP_GOOGLE_KEY $GOOGLE_MAPS_API_KEY
+ENV REACT_APP_GOOGLE_KEY=$GOOGLE_MAPS_API_KEY
 
 # Build the app
 RUN npm install
-RUN npm run build
+CMD npm run build -- -e="$REACT_APP_GOOGLE_KEY"
 RUN npm run testAll
 ENV NODE_ENV=production
 RUN npm prune --production

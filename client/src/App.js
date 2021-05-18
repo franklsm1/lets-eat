@@ -8,7 +8,7 @@ const socket = io(window.location.origin);
 
 const App = () => {
     const [connectionInfo, setConnectionInfo] = useState(null);
-    socket.on('network-clients', (data) => {
+    socket.on('new-connection', (data) => {
         setConnectionInfo(data);
     });
     return (

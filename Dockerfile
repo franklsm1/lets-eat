@@ -9,8 +9,9 @@ RUN chmod +x /usr/local/bin/dumb-init
 COPY . /app/
 WORKDIR app
 
-# Set the Google Maps API key (injected from Dockerhub)
+# Set the Google Maps API keys for the server and client (injected from Dockerhub)
 ARG GOOGLE_MAPS_API_KEY
+ARG REACT_APP_GOOGLE_KEY
 
 # Build the app
 RUN npm run installAll

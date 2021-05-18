@@ -1,6 +1,6 @@
 import requestIp from 'request-ip';
 import geoIp from 'geoip-lite';
-import { getNearbyRestaurants } from "./googleMapsApi";
+import { getNearbyRestaurants } from "./googleMapsApi.js";
 
 const networks = {};
 const defaultLatLong = [35.5836, -80.8533] // Mooresville Costco :)

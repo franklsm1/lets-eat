@@ -28,14 +28,18 @@ const getContent = (connectionInfo) => {
         );
     } else {
         return (
-        <>
-            <p>
-                Users connected on the same network: <span id="numberOfUsers">{connectionInfo.socketCount}</span>
-            </p>
-            <p> Your location: </p>
-            <Map lat={connectionInfo.latLong[0]} long={connectionInfo.latLong[1]}/>
-        </>
-    );
+            <>
+                <p>
+                    Users connected on the same network: <span id="numberOfUsers">{connectionInfo.socketCount}</span>
+                </p>
+                <p> Your location: </p>
+                <Map
+                    userLat={connectionInfo.latLong[0]}
+                    userLong={connectionInfo.latLong[1]}
+                    places={connectionInfo.places}
+                />
+            </>
+        );
     }
 };
 

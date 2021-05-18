@@ -1,29 +1,79 @@
-import React from 'react'
-import {
-    Marker,
-    GoogleMap,
-    withScriptjs,
-    withGoogleMap,
-} from 'react-google-maps'
-import { compose, withProps } from 'recompose';
-import { GOOGLE_MAP_URL } from '../constants'
+import {GoogleMap, LoadScript, Marker} from '@react-google-maps/api';
+import {useState} from "react";
 
-const Map = compose(
-    withProps({
-        googleMapURL: GOOGLE_MAP_URL,
-        loadingElement: <div style={{ height: `100%` }} />,
-        containerElement: <div style={{ height: `400px`, maxWidth: `600px`, margin: `auto` }} />,
-        mapElement: <div style={{ height: `100%` }} />,
-    }),
-    withScriptjs,
-    withGoogleMap
-)(({lat, long}) =>
-    <GoogleMap
-        defaultZoom={13}
-        defaultCenter={{ lat, lng: long }}
+const containerStyle = {
+    maxWidth: '600px',
+    height: '400px',
+    margin: 'auto',
+};
+
+const Map = ({userLat, userLong, places}) => {
+    const center = {
+        lat: userLat,
+        lng: userLong
+    };
+
+    console.log(places)
+    const [state, setState] = useState({})
+
+    // const onClose = () => {
+    //     if (state.showingInfoWindow) {
+    //         setState({
+    //             showingInfoWindow: false,
+    //             activeMarker: null
+    //         });
+    //     }
+    // };
+
+    const getMarkers = () => {
+        return places.map(place => {
+            let marker;
+            const onLoad = (loadedMarker) => {
+                marker = loadedMarker;
+            }
+            const onMarkerClick = () => {
+                console.log(marker)
+                setState({
+                    activeMarker: marker,
+                    showingInfoWindow: true
+                });
+            }
+            const {location} = place.geometry;
+            console.log(location)
+            return (
+                <Marker
+                    key={place.name}
+                    onLoad={onLoad}
+                    onClick={onMarkerClick}
+                    position={location}
+                    title={place.name}
+                />
+            )
+        })
+    };
+
+    return (<LoadScript
+        googleMapsApiKey={process.env.REACT_APP_GOOGLE_KEY}
     >
-        <Marker position={{ lat, lng: long }} />
-    </GoogleMap>
-);
+        <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={13}
+        >
+            {getMarkers()}
+            {/*{state.activeMarker &&*/}
+            {/*<InfoWindow*/}
+            {/*    marker={state.activeMarker}*/}
+            {/*    visible={state.showingInfoWindow}*/}
+            {/*    onClose={onClose}*/}
+            {/*>*/}
+            {/*    <div>*/}
+            {/*        <h4>{state.activeMarker?.title}</h4>*/}
+            {/*    </div>*/}
+            {/*</InfoWindow>*/}
+            {/*}*/}
+        </GoogleMap>
+    </LoadScript>);
+};
 
 export default Map;
